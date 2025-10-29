@@ -37,6 +37,16 @@ function isArrayBuffer(value) {
     return false;
   }
 }
+
+// ✅ Distinguish between ArrayBuffer and SharedArrayBuffer
+function isArrayBuffer(value) {
+  try {
+    Object.getOwnPropertyDescriptor(ArrayBuffer.prototype, detached).get.call(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
 ```
 
 ## Proposed solution
