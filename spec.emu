@@ -4,36 +4,97 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
 <pre class="metadata">
-title: Proposal Title Goes Here
-stage: -1
-contributors: Your Name(s) Here
+title: IsArrayBuffer
+stage: 0
+contributors: Chengzhong Wu
 </pre>
 
-<emu-clause id="sec-demo-clause">
-  <h1>This is an emu-clause</h1>
-  <p>This is an algorithm:</p>
-  <emu-alg>
-    1. Let _proposal_ be *undefined*.
-    1. If IsAccepted(_proposal_) is *true*, then
-      1. Let _stage_ be *0*<sub>ℤ</sub>.
-    1. Else,
-      1. Let _stage_ be *-1*<sub>ℤ</sub>.
-    1. Return ? ToString(_stage_).
-  </emu-alg>
-</emu-clause>
+<emu-clause id="sec-structured-data">
+  <h1>Structured Data</h1>
 
-<emu-clause id="sec-is-accepted" type="abstract operation">
-  <h1>
-      IsAccepted (
-        _proposal_: an ECMAScript language value
-      ): a Boolean
-  </h1>
-  <dl class="header">
-    <dt>description</dt>
-    <dd>Tells you if the proposal was accepted</dd>
-  </dl>
-  <emu-alg>
-    1. If _proposal_ is not a String, or is not accepted, return *false*.
-    1. Return *true*.
-  </emu-alg>
+  <emu-clause id="sec-arraybuffer-objects">
+    <h1>ArrayBuffer Objects</h1>
+
+    <emu-clause id="sec-abstract-operations-for-arraybuffer-objects">
+      <h1>Abstract Operations For ArrayBuffer Objects</h1>
+
+      <emu-clause id="sec-isarraybuffer" type="abstract operation">
+        <h1>
+          IsArrayBuffer (
+            _value_: an ECMAScript language value
+          ): a Boolean
+        </h1>
+        <dl class="header">
+          <dt>description</dt>
+          <dd>It tests whether a value is an ArrayBuffer, or a subtype of it.</dd>
+        </dl>
+        <emu-alg>
+          1. If _value_ is not an Object, return *false*.
+          1. If _value_ does not have a [[ArrayBufferData]] internal slot, return *false*.
+          1. Let _bufferData_ be _value_.[[ArrayBufferData]].
+          1. If _bufferData_ is a Shared Data Block, return *false*.
+          1. Assert: _bufferData_ is a Data Block or *null*.
+          1. Return *true*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-arraybuffer-constructor">
+      <h1>Properties of the ArrayBuffer Constructor</h1>
+      <p>The ArrayBuffer constructor:</p>
+      <ul>
+        <li>has a [[Prototype]] internal slot whose value is %Function.prototype%.</li>
+        <li>has the following properties:</li>
+      </ul>
+
+      <emu-clause id="sec-arraybuffer.isarraybuffer">
+        <h1>ArrayBuffer.isArrayBuffer ( _arg_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Return IsArrayBuffer(_arg_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-sharedarraybuffer-objects">
+    <h1>SharedArrayBuffer Objects</h1>
+
+    <emu-clause id="sec-abstract-operations-for-sharedarraybuffer-objects">
+      <h1>Abstract Operations for SharedArrayBuffer Objects</h1>
+
+      <emu-clause id="sec-issharedarraybuffer" type="abstract operation">
+        <h1>
+          IsSharedArrayBuffer (
+            _value_: an ECMAScript language value
+          ): a Boolean
+        </h1>
+        <dl class="header">
+          <dt>description</dt>
+          <dd>It tests whether a value is a SharedArrayBuffer, or a subtype of it.</dd>
+        </dl>
+        <emu-alg>
+          1. <ins>If _value_ is not an Object, return *false*.</ins>
+          1. <ins>If _value_ does not have a [[ArrayBufferData]] internal slot, return *false*.</ins>
+          1. Let _bufferData_ be _value_.[[ArrayBufferData]].
+          1. If _bufferData_ is *null*, return *false*.
+          1. If _bufferData_ is a Data Block, return *false*.
+          1. Assert: _bufferData_ is a Shared Data Block.
+          1. Return *true*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-sharedarraybuffer-constructor">
+      <h1>Properties of the SharedArrayBuffer Constructor</h1>
+
+      <emu-clause id="sec-sharedarraybuffer.issharedarraybuffer">
+        <h1>SharedArrayBuffer.isSharedArrayBuffer ( _arg_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Return IsSharedArrayBuffer(_arg_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
 </emu-clause>
